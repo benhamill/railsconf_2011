@@ -1,0 +1,61 @@
+Replacing RVM: DCI
+Mike Dietz
+slides: Dunno. Maybe look at railsconf.com/slides
+
+DCI: Data, Context, Interaction
+
+MVC: Not just for webapps.
+
+MVC comes from the day when having a user for a program was a new idea.
+
+Views would register themselves as observers of models.
+
+Models would send out a notification when it changed and views would change
+  accordingly.
+
+You'd have MVC withing MVC within MVC (application, screen, button, etc.)
+  fractally.
+
+There's a difference between class-based programming and OO programming. OO is a
+  super-set. JS has no classes. You can have objects without NEEDING,
+  conceptually, a class that defines the behavior. Of course, even Ruby locks
+  you into needing classes, though not as much as Java or whatever.
+
+DCI defines what the system IS Objects and thier properties. Mostly data. NOT
+  FEATURES.
+
+DCI defines what the system DOES is features, primarily methods on objects.
+
+"Roles" in DCI are behaviors having to do with objects, but extracted from a
+  class, like a Module. They relate to an object, maybe and make sense in a
+  specific context.
+
+The "Context" knows what Roles are relevant and which objects should fill those
+  roles. Like a casting director (Get it? Casting?).
+
+Contexts and Roles can be reused by having different objects fill the same
+  Roles.
+
+Consider testing, you can have a controller just fill a role with a test mock or
+  whatever and still be able to test all the BUSINESS LOGIC which is tied up in
+  roles.
+
+Can avoid MPD in objects (SRP fails).
+
+Contexts provide a nice home for business logic (especially the kind that don't
+  have a specific model to go to) without muddling up the SRP of your
+  data-centric classes.
+
+How could this fit into Rails? Contexts can be nested, how the fuck does that
+  work (like magnets)?
+
+It seems like Roles might be best divided by... feature. So, you might have a
+  "login" Role that could be filled by a User or an Admin and owuld have all the
+  sing_(in|up|out) methods and a different Role that handled, say commenting
+  on...  whatever social networking BS your app inevitably has. NOT just one
+  module for User that has all the methods you'd otherwise put into User.
+
+Important: You do not make Contexts as Modules and then include/extend them
+  inside your model classes. You fill the roles AT RUNTIME. So when a user is
+  logging in, it does NOT have the methods on it that have to do with
+  commenting.
