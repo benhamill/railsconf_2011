@@ -1,6 +1,6 @@
 Confident Code
 Avdi Grimm
-slides: spkr8.com/t/7473 or maybe on avdi.org/devblog
+slides: http://avdi.org/talks/confident-code-railsconf-2011/
 
 Look at Code Complete book.
 
