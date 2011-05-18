@@ -1,0 +1,14 @@
+Enhancing the Search Box
+Greg Gershman
+slides: ?
+
+Big Lebowski references FTW.
+
+autocomplete: prefix-based suggestions (Google, search.usa.gov).
+
+autosuggest: more complicated, not necessarily prefix-based suggestions
+  (Facebook, Quora, Bing). Look for "weather #{zip_code}" on Bing.
+
+Important: When rolling your own autocomplete, make sure to set :autocomplete =>
+  'off' in your text field, to keep the browser from jacking your autocomplete
+  its self.
