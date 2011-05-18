@@ -1,0 +1,100 @@
+Confident Code
+Avdi Grimm
+slides: spkr8.com/t/7473 or maybe on avdi.org/devblog
+
+Look at Code Complete book.
+
+um.
+
+Narrative Structure:
+  1. Gather Input
+  2. Perform Work
+  3. Deliver Results
+  4. Handle Failure
+
+Fewer branches and easier to understand, but NOT SHORTER. You know? That's okay.
+
+
+GATHER INPUT
+  Must be sure of your inputs.
+
+  Switching (case) on the type of an object is a code smell (nil checks and
+  try() count).
+
+  With uncertain nput: coerce, reject or ignore.
+
+  Coerce:
+    to_s, to_i, to_sym, Array(), to_your_mom, etc.
+
+    Look:
+      Array([1, 2, 3]) #=> [1, 2, 3]
+      Array("foo") #=> ["foo"]
+      Array(nil) #=> []
+      # woah!
+
+    No consistent interface? Grab the Decorator pattern.
+
+  Reject:
+    Define an assert method that raises Exception.
+
+    github.com/avdi/failfast
+
+  Ignore:
+    guard clause: return '' if input.nil?
+
+    Special case? Make an object about it.
+      def check_shit(status=$?)
+        status ||= OpenScruct.new(:exitstatus => 0)
+
+        unless [0, 172].include?(status.exitstatus)
+          raise ArgumentError, "Command exited with status #{status.exitstatus}"
+        end
+      end
+
+    Null Object: Returns self for any method call.
+    Maybe(foo).bar.baz + buz # if foo.nil? this returns nil
+
+    class Nothing
+      def method_missing(*)
+        self
+      end
+
+      def nil?; true; end
+    end
+
+    Maybe(value)
+      value.nil? Nothing : value
+    end
+
+    use collection.fetch(key) { fallback_action }
+
+
+PERFORM WORK
+  Don't get distracted.
+
+  Code what you mean.
+
+  Conditionals raise cognative complexity; relegate them to business logic.
+
+  Single object operations are inherantly 1-or-fail.
+
+  Collection object operations are inherently 0-or-more.
+
+
+DELIVER RESULTS
+  Help your callers be confident (return NothingObject or special case object)
+
+
+HANDLE FAILURE
+  Put optimal path first; error handling at the end.
+
+  bouncer method:
+    def check_child_exit_status
+      result = yield
+      status = ? ... look for slides?
+    end
+
+  checked method:
+    def checked_popen(command, mode, fail_action)
+      check_child_ex... look for slides?
+    end

@@ -1,0 +1,10 @@
+Splittin' Yo' App
+John Crepezzi
+slides:
+
+Services offer scalability, testability & maintainability.
+View => Controller => [ Controller => Model]
+
+github.com/seejohnrun/flexible_api
+
+github.com/seejohnrun/flexible_api_server

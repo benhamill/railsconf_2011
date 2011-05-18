@@ -1,0 +1,67 @@
+Keeping Rails on the Tracks
+Mikel Lindsaar
+slides: speakerrate.com/talks/7575
+
+Look up Ruby Patterns book.
+
+Working code is not good enough to tell if code is "on the rails".
+
+Refactor based on code use.
+
+Document deployment in README.
+  - Chef recipes? Anyway, server config.
+  - Gem/Ruby environment (Bundler).
+  - Put bootstrap steps in the README.
+    x What to symlink to /secrets.
+    x What makes seeds.
+    x How to deploy...
+
+Seeds file.
+
+Don't store API keys in VCS. Check out the app gem.
+
+do_something if @result == true
+# eaily rewrites to
+do_something if @result
+
+do_something if @result == 'some freaking thing'
+# should really rewrite to
+do_something if @result.whatever_state_that_string_indicates?
+
+Advice: Don't use before_, after_ and around_ filters for object instantiation.
+
+context "when logged in"
+  before(:each) do
+    session['whatever'] = true
+    session['count'] = 99
+    get :index
+  end
+
+  it "is osm and looks good" do
+    response.should be_osm
+  end
+
+  it "kicks some ass" do
+    response.should kick_ass
+  end
+end
+
+# NO! Yes:
+context "when logged in"
+  def given_a_logged_in_user
+    session['whatever'] = true
+    session['count'] = 99
+  end
+
+  it "is osm and looks good" do
+    given_a_logged_in_user
+    get :index
+    response.should be_osm
+  end
+
+  it "kicks some ass" do
+    given_a_logged_in_user
+    get :index
+    response.should kick_ass
+  end
+end

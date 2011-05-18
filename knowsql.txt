@@ -1,0 +1,41 @@
+KnowSQL
+Nick Gauthier
+slides: http://knowsql.heroku.com
+
+INDICES
+  validates_uniqueness_of does a SELECT before INSERT, which is slow.
+
+  Model.save(:validations => false) if that fails, Model.save to get nice
+  messages from Rails.
+
+
+DB VALIDATIONS
+  fast
+
+  gem: matthuhiggings-foreigner https://github.com/matthuhiggins/foreigner
+
+
+GEOSPATIAL DATA
+  PostGIS module for indexing Geo data.
+
+  Look up slides for more depth. AWESOME for HeyGoVote.
+
+  SRID for jus the US?
+
+  Lines and polygons (outline a county and give me points in there? Jesus.)
+
+
+FULL TEXT SEARCH
+  ts_headline('english', title, to_tsquery('english', 'puppy')) as headline.
+  SubjectLin.es
+
+
+JOIN, AGGREGATE, VIEW
+  SearchCaches are OUT: Make DB view, instead. Holy shit.
+
+SHOULDERS OF GIANTS
+  Postgres plugins:
+  - chkpass # password datatype with nice searching.
+  - hstore # store & query hashes.
+  - ltree # tree structure datatype.
+  - isn # ISBN, ISMN, etc. Will run check bits.
