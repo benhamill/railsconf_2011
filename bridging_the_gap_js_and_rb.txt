@@ -1,0 +1,104 @@
+Bridging the Gap
+----------------
+
+Andreas Haller, @ahx
+Thorben Schröder, @walski
+http://kopfmaschine.com/
+
+"JavaScript and Ruby at the same time without freaking out about it."
+
+Not going to use "Ruby in JavaScript."
+  Ruby Bytecode inside Javascript?! Whoa. "Hot Ruby Web Toolkit." github.com/gimite/hrwt Oh. It doesn't work.
+
+JavaScript in Ruby using Google's V8.
+  Therubyracer: http://github.com/cowboyd/therubyracer
+
+  require 'v8'
+  cxt = V8::Context.new
+  cxt.eval('7 * 6') #=> 42
+
+Runs in a sandbox, "safe by default," only have access to JavaScript objects, not I/O, filesystem. Use case: execute client code that might not be safe; query language
+
+Pass Ruby in:
+
+  class MyMath
+    def plus(a, b)
+      a + b
+    end
+  end
+
+  cxt['math'] = MyMath.new
+  cxt.eval("math.plus(20, 22)") #=> 42
+
+Simple example
+
+  //helper.js
+  var Helpers = {
+    foo: function(a,b) { return a * b }
+  };
+  
+  //main.rb
+  obj = cxt.load('helpers.js')
+  obj[:Helpers].class # => V8::Object
+  obj[:Helpers].foo(3, 4) => 12
+  
+Idioms/Structure
+
+  * The JavaScript Way
+    CommonJS (http://www.commonjs.com/)
+    CommonJS Modules (http://wiki.commonjs.org/wiki/Modules)
+    But you have to deal with browser crap. This is not for the browser. Same-origin policies, etc. So use http://github.com/codespeaks/modulr to package up dependencies and bundle everything up for the browser. Or Rack::Modulr is a Rack middleware.
+  
+  The exciting part: IncludeJS
+  http://github.com/ahx/include_js is their thing.
+  
+  // addition.js
+  exports.plus = function(a, b) {
+    return a + b;
+  };
+  
+  // calculator.rb
+  adder = IncludeJS.require('addition')
+  adder.plus(1, 2) # => 3
+
+  * The Ruby Way
+  
+  module Addition
+    def plus(a, b)
+      a + b
+    end
+  end
+  
+  class Calculator
+    include Addition
+  end
+  
+  * So how do we do this in JS?
+  
+  // calculator.rb
+  class Calculator
+    include IncludeJS.module('addition') # here is the magic
+  end
+  
+  calculator = Calculator.new
+  calculator.plus(2, 3) # => 5
+  
+  * But what about JS?
+  
+  Ideally should be the same behavior on the JS side. So:
+  
+  // addition.js
+  exports.plus = function(a, b) {
+    return a + b;
+  };
+
+  var Calculator = {}
+  $.extend(Calculator, require ('addition'))
+  
+  * The whole point here is that you're using the same code (addition) in both JS and in Ruby. Write re-usable modules in JS. JS approach: write CommonJS modules, use them in Ruby with Include JS (too fast to copy down)
+  
+  Ruby Approach:
+  write CommonJS modules
+  use them as modules in Ruby with IncludeJS
+  use them as object extensions in JS with jQuery
+

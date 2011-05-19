@@ -1,0 +1,94 @@
+Sass
+====
+
+Chris Eppstein
+@chriseppstein
+
+Compass is on top of sass.
+
+Rationale
+Syntax
+Best Practices
+
+Sass is a compiler that generates CSS
+
+CoffeeScript by Trevor Burnham at 11:35
+
+Functions, variables, mixins, partials
+
+Performance
+===========
+
+Linux:
+ * lsof
+ * strace
+ * ltrace
+
+C code:
+ * perftools
+ * gdb
+
+Networks:
+ * tcpdump
+ * ngrep
+
+CPU:
+ * bleak_house
+ * gdb.rb
+ * memprof
+
+Get the slides: http://speakerdeck.com/u/tmm1/p/debugging-ruby-performance
+
+---
+
+lsof (list open files for a pid)
+  shows app, ruby, shared libraries, file descriptors (0, 1, 2 are stdin, stdout, stderr)
+
+tcpdump (dump tcp packets)
+tcpdump -i eth0 -s 0 -nqA tcp dst port 3306
+tcpdump -w <file>, load it up in WireShark
+
+strace (trace system calls and signals)
+A system call is a call that happens in system space not user space
+-c: count and summarize
+-p pid: attach to pid and trace.
+stracing ruby: SIGVTALRM is sent every 10 ms (Ruby 1.8)
+stracing ruby: sigprocmask
+stracing ruby: tests -- result, posix_spawn gem sped up tests by 2x
+
+ltrace (trace library calls)
+A library call is a call that happens in user space (C)
+
+rbtrace (trace ruby method calls)
+require 'rbtrace'
+rbtrace -p pid -m method
+rbtrace -c <predefinedtracer>
+
+perftools (Google's performance tools), a suite
+CPUPROFILE, pprof
+
+perftools.rb (perftools for Ruby code)
+github.com/tmm1/perftools.rb
+Can do "wall-clock" time
+Can also count objects created
+
+rack-perftools (rack middleware for perftools.rb)
+Adds URLs to your app (?profile=true)
+
+gdb (the GNU debugger)
+gdb <executable>
+gdb <executable> <pid>
+  "where" "backtrace"
+
+gdb.rb (gdb with MRI hooks)
+gem install gdb.rb
+  "ruby objects classes"
+
+memprof (heap visualizer for ruby)
+analyze json output with mongodb/couchdb, jsawk/grep
+
+memprof.com
+
+"ab" tool
+
+hotspots (a performance tool for rails)
