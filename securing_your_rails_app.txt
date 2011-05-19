@@ -1,0 +1,42 @@
+Securing your rails app
+================================================
+  
+  Reading
+    Rails Guides - security
+
+  General Points
+    Trust nothing from the browser
+    Database contains anything the user has entered, so malicious information may be in there.
+    Stay up to date on security patches. Plugins, rails gem, etc. Don't bypass rail's built-in security measures.
+    Do a security audit by a company that does them professionally.
+    Be aware, think like a hacker.
+  
+  Session Key
+    With patience, it can be brute forced to get the session digest. 
+      Fix: Don't use a comparison function with the digest. http://codahale.com/a-lesson-in-timing-attacks/
+      
+  XSS
+    Injected an image that sources to another server.
+      Allowing users to enter in HTML can allow this to happen.
+      Fix: Don't use raw (Dangerous). For HTML, use a whitelist - 
+        Whitelist: Rails helper - sanitize. Accepts an array of tags, a string to sanitize, etc.
+        
+  Authentication != Authorization
+    Simple solution, is grab records that the current user is connected to. has_many relationship.
+    Cancan an authorization solution/gem.
+    
+  CSRF
+    Using rest helps against false requests
+    Rails 3+ checks for CSRF authenticity token. This is set when using the form_tag and form_for helpers
+    XSS Bypasses this.
+    
+  Session spoofing
+    Firesheep firefox addon that could grab cookies off users on the local network.
+    Fix: SSL
+    Secure cookies
+    Strict-transport-security - Tells the server to only operate with a secure connection.
+    How?: 
+      Rack::SSL 
+      
+
+    
