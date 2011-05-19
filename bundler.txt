@@ -1,0 +1,44 @@
+André Arko (@indirect)
+Bundler
+
+gembundler.com (docs)
+#bundler
+
+Passenger:
+  bundle install => Errno::EACCES
+  don't sudo. instead:
+  bundle install --path vendor/bundle
+
+Frozen mode: compares Gemfile with Gemfile.lock, throws exception if gem not found/installed
+  bundle install --frozen
+
+bundle install --deployment
+  encapsulates: --path vendor/bundle, --frozen
+
+Simplest case, passenger, in your deploy script:
+<update code>
+bundle install --deployment
+<bounce app server>
+
+Other cases: Unicorn, Thin, Mongrel...:
+  Add "gem 'unicorn'" to Gemfile
+  deploy script:
+    <update code>
+    run bundle install --deployment
+    bundle exec unicorn_rails (or mongrel_rails, etc)
+
+In the case of a firewall (bofh):
+  bundle pack (from dev machine, copies all gems into vendor/cache)
+  bundler will compile gems from the packed versions on the server.
+
+With Capistrano, you can instead say require 'bundler/capistrano' in recipe and you are done. No bundle install etc.
+
+Variables available, see cap -e bundle:install
+
+For 1.1: speed
+         "standalone mode": does not require bundler to be in system
+         if using git gem, gem 'rails', :git => 'git://github.com/rails/rails.git'
+         will be instead gem 'rails', :github => 'rails/rails'
+         Can use 1.1 now: gem install bundler --pre
+
+Use mysql2!
