@@ -1,0 +1,10 @@
+Building Rails Apps for the Rich Client
+Yehuda Katz
+slides: 
+
+Rails is a lot more than the "surface area".
+
+Consider how much of your apps are NOT HTML rendering (BG jobs, authn & authz,
+  etc.)
+
+Man, I didn't take a lot of notes on this one.
