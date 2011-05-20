@@ -1,5 +1,8 @@
-In 2011, I went to RailsConf in Baltimore. These are notes I made during some of
-the talks I went to. I just sort of typed whatever I was thinking in the order I
-was thinking it and tried to make some kind of whitspace-based organization.
-They're not cleaned up and probably have typos and spelling errors. Feel free to
-do with these whatever you want.
+This is a collection of notes from some people who went to RailsConf 2011 in
+Baltimore. It is mostly just sort of typed as a stream of conciousness with some
+attempt to make some kind of whitspace-based organization.  They're not cleaned
+up and probably have typos and spelling errors. Feel free to do with these
+whatever you want.
+
+You also might be interested to check out these notes:
+http://trevmex.com/post/5656565549/railsconf-notes-from-trevor-lalish-menagh-trevmex
