@@ -1,10 +1,69 @@
-Building Rails Apps for the Rich Client
 Yehuda Katz
-slides: 
 
-Rails is a lot more than the "surface area".
+"If all I'm doing is sending JSON back and forth what's the point of Rails?  Wouldn't something like Sinatra be better?"  -- anonymous
 
-Consider how much of your apps are NOT HTML rendering (BG jobs, authn & authz,
-  etc.)
+Rails hides complexity very well.
 
-Man, I didn't take a lot of notes on this one.
+Rails is a rich HTTP Abstraction
+
+Fat Models, Skinny Controllers
+
+Rails HTTP Abstraction
+
+     ActionDispatch is it's own module
+     Middleware
+          getting all the things to work together is non-trivial
+          Sinatra is not the answer for these things
+     Session
+     Standards-mode for Chrome / IE (X-UA-Compatible)
+          This is automatically included
+     Parameters
+     Reloading (development mode)
+     Security (remote IP spoofing)
+          timing attacks - even with a network jitter you can determine through statistical analysis
+     Option Segment
+     Caching
+          ETags, Last-Modified; Make sure to use this
+
+     Rails is designed for negotiating the complexities of HTTP
+
+     Controller Layer is in the controller
+
+     Javascript Templating was terrible in 2005; It's better now
+
+     Controller's job is to get state ready for rendering
+
+API
+     Rails has a good framework for generating APIs
+     Foreign keys are named {foo}_id  --- ActiveRecord
+     
+     JSON APIs are up to you, naming keys is up to you
+     JSON APIs error reporting format is up to you
+
+     Hard to write a single client - you need to define the JSON
+
+     Symptom of problem: ActiveResource requires too much configuration
+          Need something like an ORM for Javascript
+
+API Rules
+     Rule #1: Keys at the root
+          {posts:[{title:"This is a post"}]}
+     Rule #2: No nested resources
+     Rule #3: Nested objects follow as JSON API Rule 1
+
+Rich Client Applications need bulk ideas
+     Mark All Done - User clicks ==> 100 objects changed ==> click handlers done ==> persist to server
+
+BULK_API
+     Follows the 3 API rules
+
+
+Server Side should be conventional
+     By default Proxy to ActiveRecord
+     ApplicationResource can authenticate and authorize
+
+Machine Protocols
+     Optimizing them for efficiencies; Optimized for consistency
+
+Rails is great for JSON APIs
+     
