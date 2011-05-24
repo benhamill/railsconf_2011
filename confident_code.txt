@@ -37,7 +37,7 @@ GATHER INPUT
   Reject:
     Define an assert method that raises Exception.
 
-    github.com/avdi/failfast
+    github.com/avdi/fail-fast
 
   Ignore:
     guard clause: return '' if input.nil?
